@@ -31,11 +31,16 @@ router.post('/api/lists/:listId', (req, res, next)=>{
   Playlists.findByIdAndUpdate(req.params.listId, req.body)
   .then(list =>{
     res.send(list)
+  }).catch(err=>{
+    res.send({
+      error:'error'}
+    )
   })
 })
 
 //add single song
 router.put('/api/lists/:listId', (req,res,next)=>{
+  console.log('here')
   Playlists.findById(req.params.listId)
   .then(list=>{
     list.songs.$addToSet(req.body)
