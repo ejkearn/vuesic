@@ -22,7 +22,15 @@ export default new vuex.Store({
     playlist: [],
     playlist2: [],
     results: [],
-    playlistId: '',
+    playlistId: '5b0ae96beeb83d47045dfd39',
+    testSong: {
+
+      "title": "title3",
+      "album": "album3",
+      "artist": "artist3",
+      "songUrl": "URL3",
+      "imgUrl": "URL3"
+  }
 
   },
   mutations: {
@@ -57,12 +65,16 @@ export default new vuex.Store({
     getPlaylist({ dispatch, commit, state }, playlistId) {
       playlistapi.get(state.playlistId)
         .then(res => {
-          console.log(res.data[0].songs)
-          commit('setPlaylist', res.data[0].songs)
+          console.log(res.data)
+          commit('setPlaylist', res.data.songs)
         }).catch(err => alert(err))
     },
     setPlaylistId({ dispatch, commit }, playlistId) {
       commit('setPlaylistId', playlistId)
+    },
+
+    createNewPlaylist({dispatch, commit}, ){
+
     },
 
     addToPlaylist({ dispatch, commit, state }, song) {
@@ -84,7 +96,7 @@ export default new vuex.Store({
       temp.push(songObj)
       state.playlist = temp
       state.playlist2 = state.playlist
-      var playlistObj = {"songs": this.playlist}
+      var playlistObj = {"songs": state.playlist}
         // console.log(state.playlist)
       playlistapi.post(state.playlistId, playlistObj)
         .then(res=>{
@@ -96,6 +108,13 @@ export default new vuex.Store({
     },
     tryLog({dispatch, commit, state}, ){
       console.log(this.playlist)
+    }, 
+    sendTestSong({dispatch, commit, state},){
+      playlistapi.post(state.playlistId, {"songs": [state.testSong]})
+        .then(res=>{
+          console.log(res)
+          commit('setPlaylist', res.data.songs)
+        }).catch(err=>{ alert(err)})
     }
 
   }

@@ -14,6 +14,7 @@
       <div class="col-4">
         <!-- playlist goes here -->
         <button @click="getPlaylist">playlist</button>
+        <button @click="sendTestSong">test</button>
         {{playlist}}
         {{playlist2}}
       </div>
@@ -89,6 +90,9 @@
         // this.getPlaylist()
         this.$store.dispatch('addToPlaylist', songObj)
    
+      }, 
+      sendTestSong(){
+        this.$store.dispatch('sendTestSong')
       }
 
     }
