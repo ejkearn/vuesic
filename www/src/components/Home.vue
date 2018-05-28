@@ -13,10 +13,9 @@
     <div class="row">
       <div class="col-4">
         <!-- playlist goes here -->
+        <songs :list="playlist" buttonText="remove from Playlist" :handleButtonClick="removeFromPlaylist"></songs>
         <button @click="getPlaylist">playlist</button>
-        <button @click="sendTestSong">test</button>
-        {{playlist}}
-        {{playlist2}}
+        
       </div>
       <!-- start of card -->
       <div class="col-8">
@@ -84,17 +83,22 @@
           this.query = ''
       },
       getPlaylist() {
-        this.$store.dispatch('getPlaylist', this.playlistId)
+        this.$store.dispatch('getPlaylist')
       },
       addToPlaylist(songObj) {
         // this.getPlaylist()
         this.$store.dispatch('addToPlaylist', songObj)
+        // this.getPlaylist()
    
       }, 
-      sendTestSong(){
-        this.$store.dispatch('sendTestSong')
+
+      removeFromPlaylist(SongId){
+        this.$store.dispatch('removeFromPlaylist', SongId._id)
       }
 
+    },
+    beforeMount(){
+      this.getPlaylist()
     }
   }
 

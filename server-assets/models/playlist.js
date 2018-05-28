@@ -3,11 +3,11 @@ var Schema = mongoose.Schema
 var schemaName = 'Playlist'
 
 let songSchema = new Schema({
-  title:{type: String, require: true},
-  album:{type:String, require:true},
-  artist:{type:String, require:true},
-  songUrl:{type:String, require:true},
-  imgUrl:{type:String, require:true},
+  trackName:{type: String, require: true},
+  collectionName:{type:String, require:true},
+  artistName:{type:String, require:true},
+  previewUrl:{type:String, require:true},
+  artworkUrl100:{type:String, require:true},
 
 })
 let schema = new Schema({

@@ -11,7 +11,7 @@
             <audio controls>
               <source :src="result.previewUrl">
             </audio>
-            <a @click="handleButtonClick(result)" class="btn btn-primary">add to Playlist</a>
+            <a @click="handleButtonClick(result)" class="btn btn-primary">{{buttonText}}</a>
           </div>
         </div>
       </div>

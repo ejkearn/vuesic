@@ -30,7 +30,7 @@ export default new vuex.Store({
       "artist": "artist3",
       "songUrl": "URL3",
       "imgUrl": "URL3"
-  }
+    }
 
   },
   mutations: {
@@ -41,19 +41,27 @@ export default new vuex.Store({
       state.playlist = playlist
     },
     addToPlaylist(state, songObj) {
-      var temp = []
-      temp = state.playlist
-      temp.push(songObj)
-      state.playlist = temp
-      temp = []
-      
+      // var temp = []
+      // temp = state.playlist
+      // temp.push(songObj)
+      // state.playlist = temp
+      // temp = []
+      state.playlist.push(songObj)
     },
     setPlaylistId(state, playlistId) {
       state.playlistId = playlistId
+    },
+    removeFromPlaylist(state, songId) {
+      for (let i = 0; i < state.playlist.length; i++) {
+        if (state.playlist[i]._id == songId) {
+          state.playlist.splice(i, 1)
+        }
+      }
     }
 
   },
   actions: {
+    //get search results
     getResults({ dispatch, commit }, query) {
       api.get(query + endURL)
         .then(res => {
@@ -62,60 +70,56 @@ export default new vuex.Store({
         }).catch(err => alert(err))
     },
 
-    getPlaylist({ dispatch, commit, state }, playlistId) {
+    //get playlist
+    getPlaylist({ dispatch, commit, state }, ) {
       playlistapi.get(state.playlistId)
         .then(res => {
           console.log(res.data)
           commit('setPlaylist', res.data.songs)
         }).catch(err => alert(err))
     },
+
+    //set playlist Id
     setPlaylistId({ dispatch, commit }, playlistId) {
       commit('setPlaylistId', playlistId)
     },
 
-    createNewPlaylist({dispatch, commit}, ){
-
+    //create Playlist not finished
+    createNewPlaylist({ dispatch, commit }, ) {
     },
 
+    //add a song to the bottom of playlist
     addToPlaylist({ dispatch, commit, state }, song) {
-      // console.log('top')
-
       var songObj = {
-        title: song.trackName,
-        album: song.collectionName,
-        artist: song.artistName,
-        songUrl: song.previewUrl,
-        imgUrl: song.artworkUrl100,
+        trackName: song.trackName,
+        collectionName: song.collectionName,
+        artistName: song.artistName,
+        previewUrl: song.previewUrl,
+        artworkUrl100: song.artworkUrl100,
       }
-      // console.log(songObj)
-      // commit('addToPlaylist', songObj)
-      // console.log(this.playlist)
-      // console.log({"songs": this.playlist})
-      var temp = []
-      temp = state.playlist
-      temp.push(songObj)
-      state.playlist = temp
-      state.playlist2 = state.playlist
-      var playlistObj = {"songs": state.playlist}
-        // console.log(state.playlist)
+
+      commit('addToPlaylist', songObj)
+      var playlistObj = { "songs": state.playlist }
+
       playlistapi.post(state.playlistId, playlistObj)
-        .then(res=>{
-          // console.log(this.playlist)
-          console.log('1')
+        .then(res => {
           console.log(res)
-          commit('setPlaylist', res.data.songs)
-        }).catch(err=>{alert(err)})
+          // commit('setPlaylist', res.data.songs)
+        }).catch(err => { alert(err) })
     },
-    tryLog({dispatch, commit, state}, ){
-      console.log(this.playlist)
-    }, 
-    sendTestSong({dispatch, commit, state},){
-      playlistapi.post(state.playlistId, {"songs": [state.testSong]})
-        .then(res=>{
-          console.log(res)
-          commit('setPlaylist', res.data.songs)
-        }).catch(err=>{ alert(err)})
+
+    //remove a song from playlist by song Id
+    removeFromPlaylist({ dispatch, commit, state }, songId) {
+      commit('removeFromPlaylist', songId)
+      var playlistObj = { "songs": state.playlist }
+      playlistapi.post(state.playlistId, playlistObj)
+        .then(res => {
+          console.log('removed')
+          // commit('setPlaylist', res.data.songs)
+        }).catch(err => { alert(err) })
     }
+
+
 
   }
 })
