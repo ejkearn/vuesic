@@ -19,6 +19,8 @@ vue.use(vuex)
 
 export default new vuex.Store({
   state: {
+    playing: false,
+    currentSong: new Audio(),
     playlist: [],
     playlist2: [],
     results: [],
@@ -116,7 +118,8 @@ export default new vuex.Store({
     },
 
     //create Playlist not finished
-    createNewPlaylist({ dispatch, commit }, ) {
+    createNewPlaylist({ dispatch, commit }, newPlaylist) {
+      playlistapi.post('', {name: newPlaylist})
     },
 
     //add a song to the bottom of playlist
@@ -169,6 +172,30 @@ export default new vuex.Store({
         console.log('changed')
       })
     },
+
+
+
+
+    //handle play pause
+    playPause({commit, dispatch,state}, songSrc){
+      if (state.playing){
+        // this.pauseSong(src)
+        state.currentSong.pause()
+        state.playing = false
+        
+        if (songSrc !== state.currentSong.src){
+          // this.playSong(src)
+          state.currentSong.src = songSrc
+          state.currentSong.play()
+          state.playing = true
+        }
+      }else {
+        // this.playSong(src)
+        state.currentSong.src = songSrc
+        state.currentSong.play()
+          state.playing = true
+      }
+    }
 
   }
 })

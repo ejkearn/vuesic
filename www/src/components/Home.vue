@@ -11,16 +11,14 @@
     </div>
     <!-- end of search bar -->
     <div class="row">
-      <div class="col-2">
+      <div class="col-4">
         <!-- playlist goes here -->
-        <playlistSongs :list="playlist" buttonText="remove from Playlist" :handleButtonClick="removeFromPlaylist" :upSongPosition="upSongPosition" :downSongPosition="downSongPosition"></playlistSongs>
-        <button @click="getPlaylist">playlist</button>
-        
+        <playlistSongs :playPause="playPause" :list="playlist" buttonText="Remove" :handleButtonClick="removeFromPlaylist" :upSongPosition="upSongPosition" :downSongPosition="downSongPosition"></playlistSongs>        
       </div>
       <!-- start of card -->
-      <div class="col-10">
+      <div class="col-8">
         <!-- <div class="row"> -->
-        <songs :list="results" buttonText="add to Playlist" :handleButtonClick="addToPlaylist"></songs>
+        <songs :list="results"  buttonText="Add" :handleButtonClick="addToPlaylist" :playPause="playPause"></songs>
         <!-- <div v-for="result in results">
         <div class="col-2">
           <div class="card" style="width: 10rem;">
@@ -62,6 +60,8 @@
         term: '',
         playlistId: '5b073b341b2f615a5805a3d2',
         song: {},
+        playing: false,
+        currentSongSrc: '',
       }
     },
     computed: {
@@ -76,9 +76,10 @@
       }
     },
     methods: {
-      setSong() {
-
+      playPause(src){
+        this.$store.dispatch('playPause', src)
       },
+
       getResults() {
         this.$store.dispatch('getResults', this.query)
         this.term = this.query,
@@ -115,7 +116,7 @@
 
 <style>
   .card {
-    width: 10rem;
+    /* width: 15rem; */
     /* max-height: 25rem; */
   }
 </style>
