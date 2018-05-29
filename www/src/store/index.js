@@ -74,7 +74,7 @@ export default new vuex.Store({
           
           state.playlist.splice(i, 1)
           state.playlist.splice(i-1, 0, elem)
-         
+         return
         }
       }
     },

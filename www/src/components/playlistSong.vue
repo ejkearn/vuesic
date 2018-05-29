@@ -1,7 +1,7 @@
 <template>
   <div class="row">
  
-      <div v-for="result in list" class="col">
+      <div v-for="result in list" class="col-12">
         <div class="card" style="">
           <img class="card-img-top" :src="result.artworkUrl100" alt="Card image cap" @click="playPause(result.previewUrl)">
           <div class="card-body">

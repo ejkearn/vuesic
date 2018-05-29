@@ -11,12 +11,12 @@
     </div>
     <!-- end of search bar -->
     <div class="row">
-      <div class="col-4">
+      <div class="col-3">
         <!-- playlist goes here -->
         <playlistSongs :playPause="playPause" :list="playlist" buttonText="Remove" :handleButtonClick="removeFromPlaylist" :upSongPosition="upSongPosition" :downSongPosition="downSongPosition"></playlistSongs>        
       </div>
       <!-- start of card -->
-      <div class="col-8">
+      <div class="col-9">
         <!-- <div class="row"> -->
         <songs :list="results"  buttonText="Add" :handleButtonClick="addToPlaylist" :playPause="playPause"></songs>
         <!-- <div v-for="result in results">
