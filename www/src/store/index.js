@@ -37,9 +37,11 @@ export default new vuex.Store({
     setResults(state, results) {
       state.results = results
     },
+
     setPlaylist(state, playlist) {
       state.playlist = playlist
     },
+
     addToPlaylist(state, songObj) {
       // var temp = []
       // temp = state.playlist
@@ -48,13 +50,42 @@ export default new vuex.Store({
       // temp = []
       state.playlist.push(songObj)
     },
+
     setPlaylistId(state, playlistId) {
       state.playlistId = playlistId
     },
+
     removeFromPlaylist(state, songId) {
       for (let i = 0; i < state.playlist.length; i++) {
         if (state.playlist[i]._id == songId) {
           state.playlist.splice(i, 1)
+        }
+      }
+    },
+
+    upSongPosition(state, songId){
+      for (let i = 0; i < state.playlist.length; i++) {
+        var song = state.playlist[i]
+        var elem = JSON.parse(JSON.stringify(song))
+        if (song._id == songId){
+    
+          
+          state.playlist.splice(i, 1)
+          state.playlist.splice(i-1, 0, elem)
+         
+        }
+      }
+    },
+
+    downSongPosition(state, songId){
+      for (let i = 0; i < state.playlist.length; i++) {
+        var song = state.playlist[i]
+  
+        if (song._id == songId){
+          var elem = JSON.parse(JSON.stringify(song))
+          state.playlist.splice(i, 1)
+          state.playlist.splice(i+1, 0, elem)
+          return
         }
       }
     }
@@ -117,9 +148,27 @@ export default new vuex.Store({
           console.log('removed')
           // commit('setPlaylist', res.data.songs)
         }).catch(err => { alert(err) })
-    }
+    },
 
+    //move song position up
+    upSongPosition({dispatch, commit, state}, songId){
+      commit('upSongPosition', songId)
+      var playlistObj = { "songs": state.playlist }
+      playlistapi.post(state.playlistId, playlistObj)
+      .then(res =>{
+        console.log('changed')
+      })
+    },
 
+    //move song position down
+    downSongPosition({dispatch, commit, state}, songId){
+      commit('downSongPosition', songId)
+      var playlistObj = { "songs": state.playlist }
+      playlistapi.post(state.playlistId, playlistObj)
+      .then(res =>{
+        console.log('changed')
+      })
+    },
 
   }
 })

@@ -11,14 +11,14 @@
     </div>
     <!-- end of search bar -->
     <div class="row">
-      <div class="col-4">
+      <div class="col-2">
         <!-- playlist goes here -->
-        <songs :list="playlist" buttonText="remove from Playlist" :handleButtonClick="removeFromPlaylist"></songs>
+        <playlistSongs :list="playlist" buttonText="remove from Playlist" :handleButtonClick="removeFromPlaylist" :upSongPosition="upSongPosition" :downSongPosition="downSongPosition"></playlistSongs>
         <button @click="getPlaylist">playlist</button>
         
       </div>
       <!-- start of card -->
-      <div class="col-8">
+      <div class="col-10">
         <!-- <div class="row"> -->
         <songs :list="results" buttonText="add to Playlist" :handleButtonClick="addToPlaylist"></songs>
         <!-- <div v-for="result in results">
@@ -48,11 +48,13 @@
 
 <script>
   import songs from "./list.vue"
+  import playlistSongs from "./playlistSong.vue"
 
   export default {
     name: '',
     components: {
-      songs
+      songs,
+      playlistSongs
     },
     data() {
       return {
@@ -94,7 +96,14 @@
 
       removeFromPlaylist(SongId){
         this.$store.dispatch('removeFromPlaylist', SongId._id)
-      }
+      },
+
+      upSongPosition(songId){
+        this.$store.dispatch('upSongPosition', songId._id)
+      },
+      downSongPosition(songId){
+        this.$store.dispatch('downSongPosition', songId._id)
+      },
 
     },
     beforeMount(){
