@@ -7,6 +7,8 @@ var port = 3000
 app.use(cors())
 require('./db/mlab-config')
 
+app.use(express.static(__dirname + '/../www/dist'))
+
 app.use(bp.json())
 app.use(bp.urlencoded({
   extended: true

@@ -5,15 +5,19 @@ import axios from 'axios'
 
 var endURL = '&media=music'
 
+var production = !window.location.host.includes('localhost');
+var baseUrl = production ? '//kanban.herokuapp.com/' : '//localhost:3000/api/lists/';
+let playlistapi = axios.create({
+  baseURL: baseUrl + 'api',
+  timeout: 2000,
+  withCredentials: true
+})
+
 let api = axios.create({
   baseURL: 'https://itunes.apple.com/search?term=',
   timeout: 3000
 })
 
-let playlistapi = axios.create({
-  baseURL: 'http://localhost:3000/api/lists/',
-  timeout: 3000
-})
 
 vue.use(vuex)
 
